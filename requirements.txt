@@ -1,0 +1,16 @@
+fastapi==0.143.3
+uvicorn[standard]==0.54.0
+psycopg[binary,pool]==3.3.6
+psycopg-pool==3.3.3
+pydantic==2.14.1
+PyJWT==2.15.1
+PyYAML==6.0.3
+python-dotenv==1.2.4
+structlog==26.1.0
+langchain==1.4.6
+langchain-core==1.6.12
+langchain-openai==1.7.2
+langgraph==1.2.16
+langfuse==3.15.0
+httpx==0.28.1
+pytest==9.1.1

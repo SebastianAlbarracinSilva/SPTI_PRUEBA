@@ -1,0 +1,42 @@
+# =====================================================================
+# Política RBAC del Supervisor (determinista, sin LLM).
+# Deny-by-default (R2): todo rol o herramienta NO listado aquí se deniega.
+# Se carga una vez en memoria al arrancar (sin consultas a BD en la ruta
+# crítica de autorización → R7).
+# =====================================================================
+version: "1.0.0"
+default_decision: DENY
+
+roles:
+  support:
+    - tool: query_customers
+      rule_id: RBAC-SUP-001
+    - tool: create_ticket
+      rule_id: RBAC-SUP-002
+
+  admin:
+    - tool: query_customers
+      rule_id: RBAC-ADM-001
+    - tool: create_ticket
+      rule_id: RBAC-ADM-002
+    - tool: delete_customer
+      rule_id: RBAC-ADM-003
+    - tool: modify_balance
+      rule_id: RBAC-ADM-004
+      conditions:
+        # Condición de negocio adicional a la validación de tipos (R4)
+        - {field: amount, op: abs_lte, value: 5000}
+    - tool: export_all_data
+      rule_id: RBAC-ADM-005
+
+# Herramientas prohibidas para TODOS los roles cuando las invoca el agente
+forbidden_tools:
+  - tool: change_agent_role
+    rule_id: DENY-FORBIDDEN-001
+
+# T05: intentos repetidos no autorizados.
+# K denegaciones dentro de la ventana => bloqueo temporal del usuario.
+rate_limit:
+  max_denies: 3          # K
+  window_seconds: 300    # ventana W
+  lockout_seconds: 600   # duración del bloqueo L
