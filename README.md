@@ -58,9 +58,9 @@ Abre **http://localhost:8000**. Desde ahí eliges el usuario (`soporte1` o `admi
 ```
 
 Los resultados se guardan en `reports/` (Markdown + JSON). Para ensayar sin OpenAI existe `LLM_PROVIDER=fake`, un LLM simulado por palabras clave que obedece cualquier inyección. **Sus resultados no sirven como evidencia.**
-
+  
 ## Estructura
-
+  
 ```
 app/
   policy.yaml        política RBAC (deny-by-default, condiciones, rate limit)
